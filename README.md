@@ -1,73 +1,114 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Task Manager Backend Service
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is the backend for a Task Manager application, developed using **NestJS** with **Prisma** as the ORM and **PostgreSQL** as the database. It implements basic **JWT authentication** for securing the API routes.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Setup Instructions
 
-## Description
+### 1. Environment Variables
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Create a `.env` file in the root of your project and add the following environment variables:
 
-## Installation
-
-```bash
-$ npm install
+```env
+DATABASE_URL="postgresql://{{user}}:{{password}}@localhost:5432/taskManager?schema=public"
+PORT=3000
 ```
 
-## Running the app
+Replace `{{user}}` and `{{password}}` with your PostgreSQL credentials.
+
+### 2. Install Dependencies
+
+To install the necessary packages, run the following command:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+yarn
 ```
 
-## Test
+### 3. Set Up the Database
+
+Push the database schema using Prisma by running:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+yarn prisma db push
 ```
 
-## Support
+### 4. Start the Development Server
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To start the development server, run:
 
-## Stay in touch
+```bash
+yarn start:dev
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+For production, use:
 
-## License
+```bash
+yarn start:prod
+```
 
-Nest is [MIT licensed](LICENSE).
+## API Documentation
+
+To check if the server is running, visit:
+
+```
+http://localhost:3000/api
+```
+
+### User Endpoints
+
+- **Register**: `POST /api/user/register`
+
+  Example request body:
+
+  ```json
+  {
+    "name": "Sample",
+    "email": "sample@gmail.com",
+    "password": "1234"
+  }
+  ```
+
+- **Login**: `POST /api/user/login`
+
+  Example request body:
+
+  ```json
+  {
+    "email": "sample@gmail.com",
+    "password": "1234"
+  }
+  ```
+
+### Task Endpoints
+
+All task-related endpoints require the JWT token to be passed as a Bearer token in the request headers.
+
+- **Create Task**: `POST /api/task/save`
+
+  Example request body:
+
+  ```json
+  {
+    "title": "Sample Title",
+    "priority": "medium",
+    "dueDate": "2024-10-01"
+  }
+  ```
+
+- **Update Task**: `PUT /api/task/update/:id`
+
+  Example request body:
+
+  ```json
+  {
+    "title": "Sample Title",
+    "priority": "medium",
+    "dueDate": "2024-10-02",
+    "status": "completed"
+  }
+  ```
+
+- **Get Task by ID**: `GET /api/task/details/:id`
+
+- **Get All Tasks**: `GET /api/task/all`
+
+- **Delete Task**: `DELETE /api/task/delete/:id`
