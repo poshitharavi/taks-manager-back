@@ -92,4 +92,31 @@ export class TaskService {
       throw error;
     }
   }
+
+  async deleteTask(id: number): Promise<Task> {
+    try {
+      //Check task exists
+      await this.prisma.task.findUniqueOrThrow({
+        where: {
+          id,
+        },
+      });
+
+      const task = await this.prisma.task.delete({
+        where: {
+          id,
+        },
+      });
+
+      return task;
+    } catch (error) {
+      // check if task not found and throw error
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`Task with id ${id} not found`);
+      }
+
+      // throw error if any
+      throw error;
+    }
+  }
 }
