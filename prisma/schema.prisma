@@ -29,7 +29,7 @@ model Task {
   title     String
   status    TaskStatus
   priority  TaskPriority
-  dueDate   DateTime?    @map("due_date")
+  dueDate   DateTime    @map("due_date")
   createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt DateTime     @updatedAt @map("updated_at") @db.Timestamptz
 

@@ -6,6 +6,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './common/guard/auth.guard';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserModule } from './user/user.module';
       signOptions: { expiresIn: '12h' },
     }),
     UserModule,
+    TaskModule,
   ],
   controllers: [AppController],
   providers: [

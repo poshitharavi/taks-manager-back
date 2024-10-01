@@ -18,16 +18,16 @@ export class IsMineGuard implements CanActivate {
       : parseInt(request.params.id);
 
     switch (route) {
-      // 💡 Check if the post belongs to the user
-      // case 'product':
-      //   const product = await this.prismaService.product.findFirst({
-      //     where: {
-      //       id: paramId,
-      //       sellerId: request.user.sub,
-      //     },
-      //   });
+      // 💡 Check if the task belongs to the user
+      case 'task':
+        const task = await this.prismaService.task.findFirst({
+          where: {
+            id: paramId,
+            userId: request.user.sub,
+          },
+        });
 
-      //   return paramId === product?.id;
+        return paramId === task?.id;
       default:
         // 💡 Check if the user manages its own profile
         return paramId === request.user.sub;
