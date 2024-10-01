@@ -33,7 +33,7 @@ export class TaskService {
     }
   }
 
-  async getTasksById(id: number): Promise<Task> {
+  async getTaskDetailsById(id: number): Promise<Task> {
     try {
       const task = await this.prisma.task.findUniqueOrThrow({
         where: {
@@ -51,6 +51,12 @@ export class TaskService {
       // throw error if any
       throw error;
     }
+  }
+
+  async getAllTasks(): Promise<Task[]> {
+    const tasks = await this.prisma.task.findMany();
+
+    return tasks;
   }
 
   async updateTask(id: number, updateTaskDto: UpdateTaskDto): Promise<Task> {

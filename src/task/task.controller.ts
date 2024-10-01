@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   Logger,
   NotFoundException,
   Param,
@@ -97,6 +98,63 @@ export class TaskController {
           statusCode: StatusCodes.BAD_REQUEST,
         });
       }
+
+      return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: 'Something went wrong',
+        error: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      });
+    }
+  }
+
+  @Get('details/:id')
+  async getTaskDetailsById(
+    @Param('id', ParseIntPipe) id: number,
+    @Res() response: Response,
+  ): Promise<any> {
+    try {
+      const task = await this.taskService.getTaskDetailsById(id);
+
+      return response.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message: 'Successfully retrieved task',
+        body: {
+          task,
+        },
+      });
+    } catch (error) {
+      this.logger.error(`Error at /task/details/${id}: ${error.message}`);
+
+      if (error instanceof NotFoundException) {
+        // Handle NotFoundException differently
+        return response.status(StatusCodes.NOT_FOUND).json({
+          message: error.message,
+          error: getReasonPhrase(StatusCodes.NOT_FOUND),
+          statusCode: StatusCodes.NOT_FOUND,
+        });
+      }
+      return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: 'Something went wrong',
+        error: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      });
+    }
+  }
+
+  @Get('all')
+  async getAllTasks(@Res() response: Response): Promise<any> {
+    try {
+      const tasks = await this.taskService.getAllTasks();
+
+      return response.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message: 'Successfully retrieved all tasks',
+        body: {
+          tasks,
+        },
+      });
+    } catch (error) {
+      this.logger.error(`Error at /task/all: ${error.message}`);
 
       return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: 'Something went wrong',
