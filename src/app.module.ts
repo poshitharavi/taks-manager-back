@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './common/guard/auth.guard';
 import { PrismaModule } from './prisma/prisma.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { PrismaModule } from './prisma/prisma.module';
       secret: 'super_secret_key',
       signOptions: { expiresIn: '12h' },
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [

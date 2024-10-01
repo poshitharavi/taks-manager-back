@@ -13,46 +13,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  user_id      String   @id @default(uuid())
-  username     String   @unique
-  email        String   @unique
-  password_hash String
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
-  tasks        Task[]
+  id        String   @id @default(uuid()) @map("user_id")
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+  tasks     Task[]
 }
 
 model Task {
-  task_id     String    @id @default(uuid())
-  user_id     String
-  title       String
-  description String?
-  status      TaskStatus
-  priority    TaskPriority
-  due_date    DateTime?
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  id        Int          @id @default(autoincrement()) @map("task_id")
+  userId    String       @map("user_id")
+  title     String
+  status    TaskStatus
+  priority  TaskPriority
+  dueDate   DateTime?    @map("due_date")
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime     @updatedAt @map("updated_at") @db.Timestamptz
 
-  user        User      @relation(fields: [user_id], references: [user_id])
-  categories   TaskCategory[]
-}
-
-model Category {
-  category_id String    @id @default(uuid())
-  name        String    @unique
-  tasks       TaskCategory[]
-}
-
-model TaskCategory {
-  task_id     String
-  category_id String
-
-  task        Task      @relation(fields: [task_id], references: [task_id])
-  category    Category  @relation(fields: [category_id], references: [category_id])
-
-  @@id([task_id, category_id]) // Composite primary key
+  user User @relation(fields: [userId], references: [id])
 }
 
 enum TaskStatus {
