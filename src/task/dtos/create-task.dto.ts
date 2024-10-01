@@ -1,5 +1,5 @@
 import { TaskPriority, TaskStatus } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateTaskDto {
   @IsNotEmpty()
@@ -14,5 +14,9 @@ export class CreateTaskDto {
   @IsString()
   dueDate: string;
 
+  @IsOptional()
+  @IsEnum(TaskStatus, {
+    message: 'Status must be a valid TaskStatus value',
+  })
   status: TaskStatus;
 }

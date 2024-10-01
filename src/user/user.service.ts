@@ -7,10 +7,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateUserDto } from './dtos/create-user';
 import { compare, hash } from 'bcrypt';
-import { LoginResponse, UserPayload } from './interfaces/user-login.interface';
-import { LoginUserDto } from './dtos/login-user';
+import { CreateUserDto, LoginUserDto } from './dtos';
+import { LoginResponse, UserPayload } from './interfaces';
 
 @Injectable()
 export class UserService {

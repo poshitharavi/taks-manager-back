@@ -11,9 +11,8 @@ import {
 import { UserService } from './user.service';
 import { Public } from 'src/common/decorators/public.decorator';
 import { Response } from 'express';
-import { CreateUserDto } from './dtos/create-user';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
-import { LoginUserDto } from './dtos/login-user';
+import { CreateUserDto, LoginUserDto } from './dtos';
 
 @Controller('user')
 export class UserController {
