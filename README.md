@@ -94,7 +94,7 @@ All task-related endpoints require the JWT token to be passed as a Bearer token 
   }
   ```
 
-- **Update Task**: `PUT /api/task/update/:id`
+- **Update Task**: `PATCH /api/task/update/:id`
 
   Example request body:
 
