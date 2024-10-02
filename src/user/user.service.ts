@@ -44,24 +44,20 @@ export class UserService {
 
   async loginAdmin(loginUserDto: LoginUserDto): Promise<LoginResponse> {
     try {
-      // find user by email
       const user = await this.prisma.user.findUnique({
         where: { email: loginUserDto.email },
       });
 
-      // check if user exists
       if (!user) {
         throw new NotFoundException('User not found');
       }
 
-      // check if password is correct by comparing it with the hashed password in the database
       if (!(await compare(loginUserDto.password, user.password))) {
         throw new UnauthorizedException('Invalid credentials');
       }
 
       const payload: UserPayload = {
-        // create payload for JWT
-        sub: user.id, // sub is short for subject. It is the user id
+        sub: user.id,
         email: user.email,
         name: user.name,
       };

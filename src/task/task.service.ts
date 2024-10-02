@@ -39,6 +39,17 @@ export class TaskService {
         where: {
           id,
         },
+        select: {
+          id: true,
+          title: true,
+          priority: true,
+          status: true,
+          createdAt: true,
+          updatedAt: true,
+          dueDate: true,
+          userId: true,
+          user: true,
+        },
       });
 
       return task;
