@@ -67,7 +67,9 @@ export class UserService {
       };
 
       return {
-        access_token: await this.jwtService.signAsync(payload),
+        name: payload.name,
+        email: payload.email,
+        token: await this.jwtService.signAsync(payload),
       };
     } catch (error) {
       throw error;

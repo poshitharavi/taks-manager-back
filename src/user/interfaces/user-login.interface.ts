@@ -5,5 +5,7 @@ export interface UserPayload {
 }
 
 export interface LoginResponse {
-  access_token: string;
+  name: string;
+  email: string;
+  token: string;
 }

@@ -54,7 +54,19 @@ export class TaskService {
   }
 
   async getAllTasks(): Promise<Task[]> {
-    const tasks = await this.prisma.task.findMany();
+    const tasks = await this.prisma.task.findMany({
+      select: {
+        id: true,
+        title: true,
+        priority: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+        dueDate: true,
+        userId: true,
+        user: true,
+      },
+    });
 
     return tasks;
   }
