@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Task } from '@prisma/client';
-import { validateAndFormatDate } from 'src/common/util/dates.util';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { validateAndFormatDate } from '../common/util/dates.util';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateTaskDto, UpdateTaskDto } from './dtos';
 
 @Injectable()

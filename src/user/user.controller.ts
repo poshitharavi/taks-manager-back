@@ -9,7 +9,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { Public } from 'src/common/decorators/public.decorator';
+import { Public } from '../common/decorators/public.decorator';
 import { Response } from 'express';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { CreateUserDto, LoginUserDto } from './dtos';
